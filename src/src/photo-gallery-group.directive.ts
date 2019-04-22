@@ -1,4 +1,4 @@
-import { Directive, Output, EventEmitter } from '@angular/core'
+import { Directive, Output, Input, EventEmitter } from '@angular/core'
 import * as PhotoSwipe from 'photoswipe'
 import * as PhotoSwipeUI_Default from 'photoswipe/dist/photoswipe-ui-default'
 import { LightboxService } from './lightbox/lightbox.service'
@@ -18,16 +18,91 @@ export interface GalleryItem {
   image: GalleryImage
 }
 
+export interface GalleryShareButton {
+  id: string
+  label: string
+  url: string
+  download?: boolean
+}
+
+export interface GalleryOptions {
+  // Core Options
+  index?: number
+  getThumbBoundsFn?: (index: number) => { x: number; y: number; w: number }
+  showHideOpacity?: boolean
+  showAnimationDuration?: number
+  hideAnimationDuration?: number
+  bgOpacity?: number
+  spacing?: number
+  allowPanToNext?: boolean
+  maxSpreadZoom?: number
+  getDoubleTapZoom?: (isMouseClick: boolean, item: any) => number
+  loop?: boolean
+  pinchToClose?: boolean
+  closeOnScroll?: boolean
+  closeOnVerticalDrag?: boolean
+  mouseUsed?: boolean
+  escKey?: boolean
+  arrowKeys?: boolean
+  history?: boolean
+  galleryUID?: number
+  galleryPIDs?: boolean
+  errorMsg?: string
+  preload?: number[]
+  mainClass?: string
+  getNumItemsFn?: () => any
+  focus?: boolean
+  isClickableElement?: (el: any) => boolean
+  modal?: boolean
+
+  // UI Options
+  barsSize?: { top: number; bottom?: 'auto' }
+  timeToIdle?: number
+  timeToIdleOutside?: number
+  loadingIndicatorDelay?: number
+  addCaptionHTMLFn?: (item: any, captionEl: any, isFake: boolean) => boolean
+  closeEl?: boolean
+  captionEl?: boolean
+  fullscreenEl?: boolean
+  zoomEl?: boolean
+  shareEl?: boolean
+  counterEl?: boolean
+  arrowEl?: boolean
+  preloaderEl?: boolean
+  tapToClose?: boolean
+  tapToToggleControls?: boolean
+  clickToCloseNonZoomable?: boolean
+  closeElClasses?: string[]
+  indexIndicatorSep?: string
+  shareButtons?: GalleryShareButton[]
+  getImageURLForShare?: (shareButtonData: GalleryShareButton[]) => string
+  getPageURLForShare?: (shareButtonData: GalleryShareButton[]) => string
+  getTextForShare?: (shareButtonData: GalleryShareButton[]) => string
+  parseShareButtonOut?: (shareButtonData: GalleryShareButton[], shareButtonOut: string) => string
+}
+
 @Directive({
   selector: '[photoGalleryGroup]',
 })
 export class PhotoGalleryGroupDirective {
+  @Input('photoGalleryGroup') options: GalleryImage
   gallery: PhotoSwipe
   galleryItems: { [key: string]: GalleryItem } = {}
   galleryItemIds: Set<string> = new Set<string>()
   galleryImages: GalleryImage[] = []
   @Output() onPhotoGalleryInit = new EventEmitter()
   @Output() onPhotoGalleryDestroy = new EventEmitter()
+  defaultOptions: GalleryOptions = {
+    history: false,
+    closeEl: true,
+    captionEl: false,
+    fullscreenEl: false,
+    zoomEl: true,
+    shareEl: false,
+    counterEl: true,
+    arrowEl: false,
+    preloaderEl: true,
+  }
 
   constructor(private lightboxService: LightboxService) {}
 
@@ -62,43 +137,32 @@ export class PhotoGalleryGroupDirective {
 
     this.galleryImages = [...this.galleryItemIds].map(key => this.galleryItems[key].image)
     const idx = this.galleryImages.findIndex(image => image.id === id)
-    const options: PhotoSwipe.Options = {
-      index: idx,
-      history: false,
-      closeEl: true,
-      captionEl: false,
-      fullscreenEl: false,
-      zoomEl: true,
-      shareEl: false,
-      counterEl: true,
-      arrowEl: false,
-      preloaderEl: true,
+    const options: GalleryOptions = Object.assign(this.defaultOptions, this.options)
+    options.index = idx
+    options.getThumbBoundsFn = (idx: number) => {
+      const key = this.galleryImages[idx].id
+      const thumbnail = this.galleryItems[key].element
+      const origin = this.galleryItems[key].image
+      const pageYScroll = window.pageYOffset || document.documentElement.scrollTop
+      const rect = thumbnail.getBoundingClientRect()
 
-      getThumbBoundsFn: (idx: number) => {
-        const key = this.galleryImages[idx].id
-        const thumbnail = this.galleryItems[key].element
-        const origin = this.galleryItems[key].image
-        const pageYScroll = window.pageYOffset || document.documentElement.scrollTop
-        const rect = thumbnail.getBoundingClientRect()
+      const thumbnailRate = rect.height / rect.width
+      const originRate = origin.h / origin.w
+      let x: number, y: number, w: number
+      if (thumbnailRate > originRate) {
+        // portrait
+        y = rect.top + pageYScroll
+        w = (origin.w * rect.height) / origin.h
+        x = rect.left - (w - rect.width) / 2
+      } else {
+        // landscape
+        const imageHeight = (origin.h * rect.width) / origin.w
+        x = rect.left
+        w = rect.width
+        y = rect.top - (imageHeight - rect.height) / 2
+      }
 
-        const thumbnailRate = rect.height / rect.width
-        const originRate = origin.h / origin.w
-        let x: number, y: number, w: number
-        if (thumbnailRate > originRate) {
-          // portrait
-          y = rect.top + pageYScroll
-          w = (origin.w * rect.height) / origin.h
-          x = rect.left - (w - rect.width) / 2
-        } else {
-          // landscape
-          const imageHeight = (origin.h * rect.width) / origin.w
-          x = rect.left
-          w = rect.width
-          y = rect.top - (imageHeight - rect.height) / 2
-        }
-
-        return { x, y, w }
-      },
+      return { x, y, w }
     }
     const photoSwipe = this.lightboxService.getLightboxElement()
 

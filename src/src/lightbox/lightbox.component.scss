@@ -88,10 +88,22 @@
   .pswp__button--close {
     background-position: 0 -30px;
   }
+  .pswp__button--share {
+    background-position: -30px -30px;
+  }
   .pswp__button--zoom {
     background-position: -60px 0;
   }
   .pswp--zoomed-in .pswp__button--zoom {
     background-position: -90px 0;
+  }
+  .pswp--fs .pswp__button--fs {
+    background-position: -30px 0;
+  }
+  .pswp__button--arrow--left:before {
+    background-position: -94px -30px;
+  }
+  .pswp__button--arrow--right:before {
+    background-position: -64px -30px;
   }
 }
