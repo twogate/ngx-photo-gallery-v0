@@ -77,10 +77,27 @@ export class PhotoGalleryGroupDirective {
       getThumbBoundsFn: (idx: number) => {
         const key = this.galleryImages[idx].id
         const thumbnail = this.galleryItems[key].element
+        const origin = this.galleryItems[key].image
         const pageYScroll = window.pageYOffset || document.documentElement.scrollTop
         const rect = thumbnail.getBoundingClientRect()
 
-        return { x: rect.left, y: rect.top + pageYScroll, w: rect.width }
+        const thumbnailRate = rect.height / rect.width
+        const originRate = origin.h / origin.w
+        let x: number, y: number, w: number
+        if (thumbnailRate > originRate) {
+          // portrait
+          y = rect.top + pageYScroll
+          w = (origin.w * rect.height) / origin.h
+          x = rect.left - (w - rect.width) / 2
+        } else {
+          // landscape
+          const imageHeight = (origin.h * rect.width) / origin.w
+          x = rect.left
+          w = rect.width
+          y = rect.top - (imageHeight - rect.height) / 2
+        }
+
+        return { x, y, w }
       },
     }
     const photoSwipe = this.lightboxService.getLightboxElement()
