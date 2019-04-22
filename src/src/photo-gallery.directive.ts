@@ -1,24 +1,31 @@
-import { Directive, HostListener, Input, ElementRef } from '@angular/core'
+import { Directive, HostListener, Input, ElementRef, AfterContentInit, OnDestroy } from '@angular/core'
 import { PhotoGalleryGroupDirective } from './photo-gallery-group.directive'
 
 @Directive({
   selector: '[photoGallery]',
 })
-export class PhotoGalleryDirective {
+export class PhotoGalleryDirective implements AfterContentInit, OnDestroy {
   @Input('photoGallery') imageUrl: string
-  index: number
+  @Input() photoGalleryTrackBy: string
+  id: string
 
   constructor(private el: ElementRef, private photoGalleryGroup: PhotoGalleryGroupDirective) {}
 
   ngAfterContentInit() {
-    this.index = this.photoGalleryGroup.registerGalleryItem({
+    this.id = this.photoGalleryTrackBy || this.imageUrl
+    this.photoGalleryGroup.registerGalleryItem({
+      id: this.id,
       element: this.el.nativeElement,
       imageUrl: this.imageUrl,
     })
   }
 
+  ngOnDestroy() {
+    this.photoGalleryGroup.unregisterGalleryItem(this.id)
+  }
+
   @HostListener('click')
   openPhotoSwipe() {
-    this.photoGalleryGroup.openPhotoSwipe(this.index)
+    this.photoGalleryGroup.openPhotoSwipe(this.id)
   }
 }

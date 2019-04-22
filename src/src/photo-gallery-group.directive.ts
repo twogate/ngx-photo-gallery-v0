@@ -2,8 +2,10 @@ import { Directive, Output, EventEmitter } from '@angular/core'
 import * as PhotoSwipe from 'photoswipe'
 import * as PhotoSwipeUI_Default from 'photoswipe/dist/photoswipe-ui-default'
 import { LightboxService } from './lightbox/lightbox.service'
+import { element } from '@angular/core/src/render3'
 
 export interface GalleryImage {
+  id: string
   src: string
   w: number
   h: number
@@ -11,8 +13,9 @@ export interface GalleryImage {
 }
 
 export interface GalleryItem {
+  id: string
   element: HTMLElement
-  imageUrl: string
+  image: GalleryImage
 }
 
 @Directive({
@@ -20,24 +23,45 @@ export interface GalleryItem {
 })
 export class PhotoGalleryGroupDirective {
   gallery: PhotoSwipe
-  galleryElements: GalleryItem[] = []
+  galleryItems: { [key: string]: GalleryItem } = {}
+  galleryItemIds: Set<string> = new Set<string>()
   galleryImages: GalleryImage[] = []
   @Output() onPhotoGalleryInit = new EventEmitter()
   @Output() onPhotoGalleryDestroy = new EventEmitter()
 
   constructor(private lightboxService: LightboxService) {}
 
-  registerGalleryItem(item: GalleryItem): number {
-    this.galleryImages.push({
+  registerGalleryItem(item: { id: string; element: HTMLElement; imageUrl: string }) {
+    const image = {
+      id: item.id,
       src: item.imageUrl,
       w: 0,
       h: 0,
       doGetSlideDimensions: true,
-    })
-    return this.galleryElements.push(item) - 1
+    }
+    this.galleryItems[item.id] = {
+      id: item.id,
+      element: item.element,
+      image,
+    }
+
+    this.galleryItemIds.add(item.id)
   }
 
-  async openPhotoSwipe(idx: number) {
+  unregisterGalleryItem(id: string) {
+    this.galleryItemIds.delete(id)
+  }
+
+  async openPhotoSwipe(id: string) {
+    if (this.galleryItems[id].image.doGetSlideDimensions) {
+      const targetImage = await loadImage(this.galleryItems[id].image.src)
+      this.galleryItems[id].image.w = targetImage.naturalWidth
+      this.galleryItems[id].image.h = targetImage.naturalHeight
+      delete this.galleryItems[id].image.doGetSlideDimensions
+    }
+
+    this.galleryImages = [...this.galleryItemIds].map(key => this.galleryItems[key].image)
+    const idx = this.galleryImages.findIndex(image => image.id === id)
     const options: PhotoSwipe.Options = {
       index: idx,
       history: false,
@@ -51,7 +75,8 @@ export class PhotoGalleryGroupDirective {
       preloaderEl: true,
 
       getThumbBoundsFn: (idx: number) => {
-        const thumbnail = this.galleryElements[idx].element
+        const key = this.galleryImages[idx].id
+        const thumbnail = this.galleryItems[key].element
         const pageYScroll = window.pageYOffset || document.documentElement.scrollTop
         const rect = thumbnail.getBoundingClientRect()
 
@@ -59,11 +84,6 @@ export class PhotoGalleryGroupDirective {
       },
     }
     const photoSwipe = this.lightboxService.getLightboxElement()
-
-    const targetImage = await loadImage(this.galleryImages[idx].src)
-    this.galleryImages[idx].w = targetImage.naturalWidth
-    this.galleryImages[idx].h = targetImage.naturalHeight
-    delete this.galleryImages[idx].doGetSlideDimensions
 
     this.gallery = new PhotoSwipe(photoSwipe, PhotoSwipeUI_Default, this.galleryImages, options)
     this.gallery.listen('gettingData', (idx, slide) => {
