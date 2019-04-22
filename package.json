@@ -1,12 +1,22 @@
 {
   "scripts": {
-    "build": "ng-packagr -p src/package.json"
+    "build": "ng-packagr -p src/package.json",
+    "tslint": "tslint -c ./tslint.json -p ./tsconfig.json 'src/**/*.ts' --format stylish",
+    "format:ts": "prettier --write 'src/**/*.ts'",
+    "format:html": "prettier --write 'src/**/*.html' --parser angular",
+    "format": "npm run format:ts && npm run format:html",
+    "sass-lint": "sass-lint -v",
+    "sass-lint:fix": "sass-lint-auto-fix -c .sass-lint.yml"
   },
   "author": "",
   "devDependencies": {
     "@angular/compiler": "^7.2.13",
     "@angular/compiler-cli": "^7.2.13",
     "ng-packagr": "^5.0.1",
+    "prettier": "^1.17.0",
+    "rxjs-tslint": "^0.1.7",
+    "sass-lint": "^1.12.1",
+    "sass-lint-auto-fix": "^0.17.0",
     "typescript": "^3.2.4"
   }
 }

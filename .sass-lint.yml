@@ -6,7 +6,7 @@ options:
 files:
   include: 'src/**/*.s+(a|c)ss'
   ignore:
-    - 'src/assets/**/*.*'
+    - 'src/node_modules/**/*.*'
 # Rule Configuration
 rules:
   attribute-quotes:
