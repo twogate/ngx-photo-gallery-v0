@@ -1,0 +1,199 @@
+# Linter Options
+options:
+  # Don't merge default rules
+  merge-default-rules: false
+  formatter: stylish
+files:
+  include: 'src/**/*.s+(a|c)ss'
+  ignore:
+    - 'src/assets/**/*.*'
+# Rule Configuration
+rules:
+  attribute-quotes:
+    - 0
+  bem-depth:
+    - 0
+  border-zero:
+    - 0
+    -
+      convention: zero
+  brace-style:
+    - 1
+    -
+      style: 1tbs
+      allow-single-line: false
+  class-name-format:
+    - 1
+    -
+      allow-leading-underscore: true
+      convention: hyphenatedlowercase
+  clean-import-paths:
+    - 0
+    -
+      leading-underscore: false
+      filename-extension: false
+  declarations-before-nesting:
+    - 0
+  empty-args:
+    - 0
+  empty-line-between-blocks:
+    - 0
+  extends-before-declarations:
+    - 1
+  extends-before-mixins:
+    - 1
+  final-newline:
+    - 1
+    -
+      include: true
+  force-attribute-nesting:
+    - 0
+  force-element-nesting:
+    - 0
+  force-pseudo-nesting:
+    - 0
+  function-name-format:
+    - 0
+  hex-length:
+    - 0
+  hex-notation:
+    - 1
+    -
+      style: lowercase
+  id-name-format:
+    - 0
+  indentation:
+    - 1
+    -
+      size: 2
+  leading-zero:
+    - 0
+    -
+      include: false
+  max-file-line-count:
+    - 0
+  max-line-length:
+    - 0
+  mixin-name-format:
+    - 0
+  nesting-depth:
+    - 1
+    -
+      max-depth: 3
+  no-attribute-selectors:
+    - 0
+  no-color-hex:
+    - 0
+  no-color-keywords:
+    - 0
+  no-color-literals:
+    - 0
+  no-combinators:
+    - 0
+  no-css-comments:
+    - 1
+  no-debug:
+    - 1
+  no-disallowed-properties:
+    - 0
+  no-duplicate-properties:
+    - 1
+    # -
+    #   exclude:
+    #     - display
+  no-empty-rulesets:
+    - 0
+  no-extends:
+    - 0
+  no-ids:
+    - 0
+  no-important:
+    - 0
+  no-invalid-hex:
+    - 1
+  no-mergeable-selectors:
+    - 0
+  no-misspelled-properties:
+    - 1
+  no-qualifying-elements:
+    - 1
+    -
+      allow-element-with-attribute: true
+      allow-element-with-class: false
+      allow-element-with-id: false
+  no-trailing-whitespace:
+    - 1
+  no-trailing-zero:
+    - 1
+  no-transition-all:
+    - 0
+  no-universal-selectors:
+    - 0
+  no-url-domains:
+    - 0
+  no-url-protocols:
+    - 0
+  no-vendor-prefixes:
+    - 0
+  no-warn:
+    - 1
+  one-declaration-per-line:
+    - 1
+  placeholder-in-extend:
+    - 0
+  placeholder-name-format:
+    - 0
+  property-sort-order:
+    - 1
+    -
+      order: alphabetical
+  property-units:
+    - 0
+  pseudo-elemen:
+    - 0
+  quotes:
+    - 1
+    - style: single
+  shorthand-values:
+    - 0
+  single-line-per-selector:
+    - 1
+  space-after-bang:
+    - 0
+  space-after-colon:
+    - 1
+    -
+      include: true
+  space-after-comma:
+    - 1
+    -
+      include: true
+  space-around-operator:
+    - 1
+    -
+      include: true
+  space-before-bang:
+    - 0
+  space-before-brace:
+    - 1
+    -
+      include: true
+  space-before-colon:
+    - 0
+  space-between-parens:
+    - 0
+  trailing-semicolon:
+    - 0
+  url-quotes:
+    - 0
+  variable-for-property:
+    - 0
+  variable-name-format:
+    - 1
+    -
+      allow-leading-underscore: true
+      convention: hyphenatedlowercase
+  zero-unit:
+    - 1
+    -
+      include: false

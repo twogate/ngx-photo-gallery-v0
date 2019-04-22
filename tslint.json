@@ -1,0 +1,45 @@
+{
+  "rules": {
+    "indent": [
+      true,
+      "spaces"
+    ],
+    "no-duplicate-variable": true,
+    "no-unused-variable": false,
+    "quotemark": [
+      true,
+      "single"
+    ],
+    "semicolon": [
+      true,
+      "never"
+    ],
+    "no-arg": true,
+    "no-console": {
+      "options":[
+        true,
+        "log",
+        "dir"
+      ],
+      "severity": "warning"
+    },
+    "no-construct": true,
+    "no-eval": true,
+    "no-string-literal": true,
+    "no-trailing-whitespace": true,
+    "no-use-before-declare": true,
+    "radix": true,
+    "triple-equals": true,
+    "no-var-keyword": true,
+    "no-unused-expression": true,
+    "eofline": true,
+    "rxjs-collapse-imports": true,
+    "rxjs-pipeable-operators-only": true,
+    "rxjs-no-static-observable-methods": true,
+    "rxjs-proper-imports": false
+  },
+  "rulesDirectory": [
+    "node_modules/tslint-eslint-rules/dist/rules",
+    "node_modules/rxjs-tslint"
+  ]
+}
