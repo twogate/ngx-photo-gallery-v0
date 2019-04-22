@@ -1,4 +1,4 @@
-import { Directive } from '@angular/core'
+import { Directive, Output, EventEmitter } from '@angular/core'
 import * as PhotoSwipe from 'photoswipe'
 import * as PhotoSwipeUI_Default from 'photoswipe/dist/photoswipe-ui-default'
 import { LightboxService } from './lightbox/lightbox.service'
@@ -22,6 +22,8 @@ export class PhotoGalleryGroupDirective {
   gallery: PhotoSwipe
   galleryElements: GalleryItem[] = []
   galleryImages: GalleryImage[] = []
+  @Output() onPhotoGalleryInit = new EventEmitter()
+  @Output() onPhotoGalleryDestroy = new EventEmitter()
 
   constructor(private lightboxService: LightboxService) {}
 
@@ -76,6 +78,10 @@ export class PhotoGalleryGroupDirective {
         this.getSlideDimensions(slide)
       }
     })
+    this.gallery.listen('destroy', () => {
+      this.onPhotoGalleryDestroy.emit()
+    })
+    this.onPhotoGalleryInit.emit()
     this.gallery.init()
   }
 
