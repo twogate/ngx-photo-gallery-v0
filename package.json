@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build": "ng-packagr -p src/package.json",
+    "build": "ng-packagr -p src/package.json && cp README.md dist/",
     "tslint": "tslint -c ./tslint.json -p ./tsconfig.json 'src/**/*.ts' --format stylish",
     "format:ts": "prettier --write 'src/**/*.ts'",
     "format:html": "prettier --write 'src/**/*.html' --parser angular",
