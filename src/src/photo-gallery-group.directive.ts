@@ -2,7 +2,6 @@ import { Directive, Output, Input, EventEmitter } from '@angular/core'
 import * as PhotoSwipe from 'photoswipe'
 import * as PhotoSwipeUI_Default from 'photoswipe/dist/photoswipe-ui-default'
 import { LightboxService } from './lightbox/lightbox.service'
-import { element } from '@angular/core/src/render3'
 
 export interface GalleryImage {
   id: string
@@ -85,7 +84,7 @@ export interface GalleryOptions {
   selector: '[photoGalleryGroup]',
 })
 export class PhotoGalleryGroupDirective {
-  @Input('photoGalleryGroup') options: GalleryImage
+  @Input('photoGalleryGroup') options: GalleryOptions
   gallery: PhotoSwipe
   galleryItems: { [key: string]: GalleryItem } = {}
   galleryItemIds: Set<string> = new Set<string>()
