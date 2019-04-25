@@ -50,8 +50,6 @@
     background: none;
     height: $toolbar-height;
     margin-top: env(safe-area-inset-top);
-    margin-top: constant(safe-area-inset-top);
-    // sass-lint:disable-block no-duplicate-properties
     padding: 16px;
     transition: transform 300ms ease-out, opacity 300ms cubic-bezier(0.4, 0, 0.22, 1);
   }
