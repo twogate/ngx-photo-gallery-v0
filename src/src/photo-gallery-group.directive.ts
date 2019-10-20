@@ -6,6 +6,7 @@ import { LightboxService } from './lightbox/lightbox.service'
 export interface GalleryImage {
   id: string
   src: string
+  title?: string
   w: number
   h: number
   doGetSlideDimensions?: boolean
@@ -105,10 +106,11 @@ export class PhotoGalleryGroupDirective {
 
   constructor(private lightboxService: LightboxService) {}
 
-  registerGalleryItem(item: { id: string; element: HTMLElement; imageUrl: string }) {
+  registerGalleryItem(item: { id: string; element: HTMLElement; imageUrl: string; caption?: string }) {
     const image = {
       id: item.id,
       src: item.imageUrl,
+      ...(item.caption ? { title: item.caption } : {}),
       w: 0,
       h: 0,
       doGetSlideDimensions: true,

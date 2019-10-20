@@ -1,20 +1,20 @@
 {
     "name": "@twogate/ngx-photo-gallery",
     "description": "",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "license": "MIT",
     "repository": "https://github.com/twogate/ngx-photo-gallery",
     "private": false,
     "keywords": [
-      "angular",
-      "ng",
-      "gallery",
-      "lightbox",
-      "photo",
-      "image",
-      "touch",
-      "swipe",
-      "zoom"
+        "angular",
+        "ng",
+        "gallery",
+        "lightbox",
+        "photo",
+        "image",
+        "touch",
+        "swipe",
+        "zoom"
     ],
     "dependencies": {
         "photoswipe": "^4.1.3"

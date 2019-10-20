@@ -7,6 +7,7 @@ import { PhotoGalleryGroupDirective } from './photo-gallery-group.directive'
 export class PhotoGalleryDirective implements AfterContentInit, OnDestroy {
   @Input('photoGallery') imageUrl: string
   @Input() photoGalleryTrackBy: string
+  @Input() photoGalleryCaption: string
   id: string
 
   constructor(private el: ElementRef, private photoGalleryGroup: PhotoGalleryGroupDirective) {}
@@ -17,6 +18,7 @@ export class PhotoGalleryDirective implements AfterContentInit, OnDestroy {
       id: this.id,
       element: this.el.nativeElement,
       imageUrl: this.imageUrl,
+      caption: this.photoGalleryCaption,
     })
   }
 
