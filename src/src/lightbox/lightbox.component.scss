@@ -104,4 +104,16 @@
   .pswp__button--arrow--right:before {
     background-position: -64px -30px;
   }
+  .pswp__caption {
+    padding-bottom: env(safe-area-inset-top);
+  }
+  .pswp__caption--empty {
+    display: block;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s ease-out;
+  }
+  .pswp__caption__center {
+    min-height: 40px;
+  }
 }
