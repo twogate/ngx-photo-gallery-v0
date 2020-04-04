@@ -6,7 +6,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core'
   styleUrls: ['./lightbox.component.scss'],
 })
 export class LightboxComponent {
-  @ViewChild('Lightbox') element: ElementRef
+  @ViewChild('Lightbox', { static: true }) element: ElementRef
 
   constructor() {}
 }

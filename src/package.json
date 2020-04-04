@@ -1,7 +1,7 @@
 {
     "name": "@twogate/ngx-photo-gallery",
     "description": "",
-    "version": "0.0.7",
+    "version": "0.1.0",
     "license": "MIT",
     "repository": "https://github.com/twogate/ngx-photo-gallery",
     "private": false,
@@ -32,8 +32,8 @@
         "dest": "../dist"
     },
     "devDependencies": {
-        "@angular/common": "^7.2.13",
-        "@angular/core": "^7.2.13",
-        "@angular/forms": "^7.2.13"
+        "@angular/common": "^9.1.0",
+        "@angular/core": "^9.1.0",
+        "@angular/forms": "^9.1.0"
     }
 }
