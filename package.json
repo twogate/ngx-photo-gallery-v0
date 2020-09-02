@@ -10,13 +10,13 @@
   },
   "author": "",
   "devDependencies": {
-    "@angular/compiler": "^9.1.0",
-    "@angular/compiler-cli": "^9.1.0",
-    "ng-packagr": "^9.1.0",
+    "@angular/compiler": "^10.0.14",
+    "@angular/compiler-cli": "^10.0.14",
+    "ng-packagr": "^10.1.0",
     "prettier": "^1.17.0",
     "rxjs-tslint": "^0.1.7",
     "sass-lint": "^1.12.1",
     "sass-lint-auto-fix": "^0.17.0",
-    "typescript": "^3.8.3"
+    "typescript": "^3.9.7"
   }
 }
